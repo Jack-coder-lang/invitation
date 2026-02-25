@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Une question pour toi 🌹</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -89,15 +89,16 @@
     }
 
     .name {
-      font-family: 'Dancing Script', cursive; font-size: 3rem; font-weight: 700;
+      font-family: 'Dancing Script', cursive; font-size: 3.2rem; font-weight: 700;
       color: #ffd6e7; text-shadow: 0 0 20px rgba(255,100,150,0.6);
       animation: fadeDown 1.2s ease both 0.3s;
     }
     .name span { color: #ff6fa8; }
 
     .subtitle {
-      font-family: 'Dancing Script', cursive; font-size: 1.05rem;
-      color: rgba(255,210,228,0.7); margin-top: 4px;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic;
+      font-weight: 300; letter-spacing: 1.5px;
+      color: rgba(255,210,228,0.75); margin-top: 6px;
       animation: fadeDown 1.2s ease both 0.5s;
     }
 
@@ -108,14 +109,17 @@
     }
 
     .message {
-      font-family: 'Dancing Script', cursive; font-size: 1.45rem; font-weight: 600;
-      color: #ffe4ef; line-height: 1.65;
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400;
+      font-style: italic;
+      color: #ffe4ef; line-height: 1.8;
       animation: fadeDown 1.2s ease both 0.8s;
     }
 
     .sub-message {
-      margin-top: 14px; font-size: 0.9rem;
-      color: rgba(255,200,220,0.65); font-style: italic;
+      margin-top: 14px; font-size: 0.88rem;
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+      letter-spacing: 0.5px;
+      color: rgba(255,200,220,0.65);
       animation: fadeDown 1.2s ease both 1s;
     }
 
@@ -130,8 +134,9 @@
       animation: fadeDown 1.2s ease both 1.2s;
     }
     .btn {
-      font-family: 'Dancing Script', cursive; font-size: 1.15rem; font-weight: 600;
-      padding: 13px 30px; border-radius: 50px; border: none; cursor: pointer;
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 1px;
+      padding: 13px 32px; border-radius: 50px; border: none; cursor: pointer;
       white-space: nowrap;
     }
     .btn-yes {
@@ -149,8 +154,9 @@
 
     /* Indications */
     .hint {
-      margin-top: 16px; font-family: 'Dancing Script', cursive; font-size: 1rem;
-      color: #ffb3cc; font-style: italic;
+      margin-top: 16px; font-family: 'Cormorant Garamond', serif; font-size: 1rem;
+      font-style: italic; font-weight: 300; letter-spacing: 0.3px;
+      color: #ffb3cc;
       text-shadow: 0 0 12px rgba(255,80,130,0.5);
       animation: fadeDown 1.2s ease both 1.4s;
     }
@@ -194,15 +200,15 @@
     }
 
     .photos-title {
-      font-family: 'Dancing Script', cursive;
+      font-family: 'Playfair Display', serif;
       font-size: 2rem; font-weight: 700;
       color: #ffd6e7; text-shadow: 0 0 20px rgba(255,100,150,0.5);
       margin-bottom: 8px; text-align: center;
     }
     .photos-sub {
-      font-family: 'Dancing Script', cursive; font-size: 1rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+      font-weight: 300; font-style: italic; letter-spacing: 1px;
       color: rgba(255,180,200,0.6); margin-bottom: 36px; text-align: center;
-      font-style: italic;
     }
 
     /* Wrapper carousel */
@@ -318,8 +324,9 @@
       text-shadow: 0 0 30px rgba(255,100,150,0.8);
     }
     .success-msg {
-      font-family: 'Dancing Script', cursive; font-size: 1.3rem;
+      font-family: 'Playfair Display', serif; font-size: 1.15rem; font-style: italic;
       color: rgba(255,210,228,0.85); margin-top: 14px; max-width: 360px;
+      line-height: 1.8;
     }
 
     /* ── Bouton musique ── */
@@ -366,9 +373,9 @@
       50%       { transform: scale(1.2); }
     }
     .secret-text {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.15rem; color: #ffd6e7;
-      line-height: 1.7; font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 300; font-style: italic;
+      color: #ffd6e7; line-height: 1.85; letter-spacing: 0.3px;
       text-shadow: 0 0 12px rgba(255,100,150,0.4);
     }
 
