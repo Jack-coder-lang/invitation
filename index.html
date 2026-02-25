@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Une question pour toi 🌹</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(160deg, #000000 0%, #0d0005 30%, #1a000a 65%, #2a0010 100%);
+      background-attachment: fixed;
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════
+       SECTION 1 — Invitation
+    ══════════════════════════════════ */
+    #section-invite {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 40px 16px 80px;
+    }
+
+    /* Pétales */
+    .petals-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .petal {
+      position: absolute;
+      top: -60px;
+      animation: fall linear infinite;
+      opacity: 0.7;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.8; }
+      100% { transform: translateY(110vh) rotate(360deg) scale(0.6); opacity: 0; }
+    }
+
+    /* Coeurs fond */
+    .hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .heart-bg  { position: absolute; animation: floatHeart ease-in-out infinite; opacity: 0.12; }
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-20px) scale(1.1); }
+    }
+
+    /* Carte invitation */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 240, 245, 0.10);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 160, 190, 0.28);
+      border-radius: 28px;
+      padding: 52px 48px 44px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
+      animation: cardIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.92); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .rose-icon {
+      font-size: 3.5rem; display: block; margin-bottom: 18px;
+      animation: roseWiggle 3s ease-in-out infinite;
+    }
+    @keyframes roseWiggle {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
+      50%       { transform: rotate(5deg) scale(1.1); }
+    }
+
+    .name {
+      font-family: 'Dancing Script', cursive; font-size: 3rem; font-weight: 700;
+      color: #ffd6e7; text-shadow: 0 0 20px rgba(255,100,150,0.6);
+      animation: fadeDown 1.2s ease both 0.3s;
+    }
+    .name span { color: #ff6fa8; }
+
+    .subtitle {
+      font-family: 'Dancing Script', cursive; font-size: 1.05rem;
+      color: rgba(255,210,228,0.7); margin-top: 4px;
+      animation: fadeDown 1.2s ease both 0.5s;
+    }
+
+    .divider {
+      margin: 22px auto; width: 60px; height: 2px;
+      background: linear-gradient(to right, transparent, #ff6fa8, transparent);
+      animation: fadeDown 1s ease both 0.6s;
+    }
+
+    .message {
+      font-family: 'Dancing Script', cursive; font-size: 1.45rem; font-weight: 600;
+      color: #ffe4ef; line-height: 1.65;
+      animation: fadeDown 1.2s ease both 0.8s;
+    }
+
+    .sub-message {
+      margin-top: 14px; font-size: 0.9rem;
+      color: rgba(255,200,220,0.65); font-style: italic;
+      animation: fadeDown 1.2s ease both 1s;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Boutons */
+    .buttons {
+      margin-top: 36px; display: flex; gap: 16px; justify-content: center;
+      animation: fadeDown 1.2s ease both 1.2s;
+    }
+    .btn {
+      font-family: 'Dancing Script', cursive; font-size: 1.15rem; font-weight: 600;
+      padding: 13px 30px; border-radius: 50px; border: none; cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-yes {
+      background: linear-gradient(135deg, #ff3d7f, #ff6fa8); color: #fff;
+      box-shadow: 0 6px 24px rgba(255,60,120,0.5);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-yes:hover { transform: scale(1.07); box-shadow: 0 10px 32px rgba(255,60,120,0.7); }
+
+    .btn-no {
+      background: rgba(255,255,255,0.06); color: rgba(255,200,220,0.5);
+      border: 1px solid rgba(255,150,180,0.2);
+      position: fixed; z-index: 50; pointer-events: none;
+    }
+
+    /* Indications */
+    .hint {
+      margin-top: 16px; font-family: 'Dancing Script', cursive; font-size: 1rem;
+      color: #ffb3cc; font-style: italic;
+      text-shadow: 0 0 12px rgba(255,80,130,0.5);
+      animation: fadeDown 1.2s ease both 1.4s;
+    }
+
+    /* Label bouton Non */
+    #no-label {
+      position: fixed; z-index: 49;
+      font-family: 'Dancing Script', cursive; font-size: 0.85rem;
+      color: #ff9ec0; text-shadow: 0 0 8px rgba(255,60,120,0.5);
+      pointer-events: none; white-space: nowrap; transform: translateX(-50%);
+    }
+
+    /* Flèche vers les photos */
+    .scroll-arrow {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      z-index: 20; text-align: center; animation: bounce2 2s ease-in-out infinite;
+      cursor: pointer;
+    }
+    .scroll-arrow span {
+      display: block; font-family: 'Dancing Script', cursive; font-size: 0.9rem;
+      color: #ff9ec0; text-shadow: 0 0 10px rgba(255,60,120,0.5); margin-bottom: 4px;
+    }
+    .scroll-arrow svg { display: block; margin: 0 auto; }
+    @keyframes bounce2 {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ══════════════════════════════════
+       SECTION 2 — Carousel photos
+    ══════════════════════════════════ */
+    #section-photos {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 16px 80px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .photos-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem; font-weight: 700;
+      color: #ffd6e7; text-shadow: 0 0 20px rgba(255,100,150,0.5);
+      margin-bottom: 8px; text-align: center;
+    }
+    .photos-sub {
+      font-family: 'Dancing Script', cursive; font-size: 1rem;
+      color: rgba(255,180,200,0.6); margin-bottom: 36px; text-align: center;
+      font-style: italic;
+    }
+
+    /* Wrapper carousel */
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .carousel-track-outer {
+      overflow: hidden;
+      border-radius: 22px;
+      box-shadow: 0 16px 60px rgba(0,0,0,0.6);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.45s cubic-bezier(0.77,0,0.18,1);
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      position: relative;
+      aspect-ratio: 4/3;
+      background: rgba(255,255,255,0.04);
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 22px;
+    }
+
+    /* Placeholder quand pas encore de photo */
+    .slide-placeholder {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      width: 100%; height: 100%;
+      color: rgba(255,150,180,0.35);
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem; gap: 12px;
+    }
+    .slide-placeholder svg { opacity: 0.3; }
+
+    /* Caption photo */
+    .slide-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+      padding: 20px 20px 14px;
+      font-family: 'Dancing Script', cursive; font-size: 1.1rem;
+      color: #ffd6e7; text-align: center;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+
+    /* Boutons prev/next */
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,60,120,0.25);
+      border: 1px solid rgba(255,100,150,0.35);
+      color: #ffd6e7; font-size: 1.4rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      cursor: pointer; z-index: 20;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .carousel-btn:hover { background: rgba(255,60,120,0.5); transform: translateY(-50%) scale(1.1); }
+    .carousel-btn.prev { left: -22px; }
+    .carousel-btn.next { right: -22px; }
+
+    /* Dots */
+    .carousel-dots {
+      display: flex; gap: 8px; justify-content: center; margin-top: 20px;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,150,180,0.3);
+      cursor: pointer; transition: background 0.2s, transform 0.2s;
+    }
+    .dot.active { background: #ff6fa8; transform: scale(1.3); }
+
+    /* Compteur */
+    .carousel-counter {
+      font-family: 'Dancing Script', cursive; font-size: 0.9rem;
+      color: rgba(255,150,180,0.5); margin-top: 10px; text-align: center;
+    }
+
+    /* ══════════════════════════════════
+       ÉCRAN SUCCÈS
+    ══════════════════════════════════ */
+    #success-screen {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: linear-gradient(135deg, #000000, #0d0005, #1a000a);
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 24px;
+      overflow-y: auto;
+    }
+    #success-screen.show { display: flex; animation: fadeIn 0.6s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .success-emoji { font-size: 5rem; animation: bounceIn 0.8s cubic-bezier(0.34,1.56,0.64,1) both; }
+    @keyframes bounceIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+    .success-title {
+      font-family: 'Dancing Script', cursive; font-size: 2.8rem; font-weight: 700;
+      color: #ffd6e7; margin-top: 24px;
+      text-shadow: 0 0 30px rgba(255,100,150,0.8);
+    }
+    .success-msg {
+      font-family: 'Dancing Script', cursive; font-size: 1.3rem;
+      color: rgba(255,210,228,0.85); margin-top: 14px; max-width: 360px;
+    }
+
+    /* Confettis */
+    .confetti-heart {
+      position: fixed; pointer-events: none; z-index: 300;
+      animation: confettiFall 2s ease-in forwards;
+    }
+    @keyframes confettiFall {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(60vh) rotate(720deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fond animé fixe -->
+  <div class="petals-container" id="petals"></div>
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <!-- ══ SECTION 1 : Invitation ══ -->
+  <section id="section-invite">
+    <div class="card">
+      <span class="rose-icon">🌹</span>
+      <div class="name">Mouna <span>♡</span></div>
+      <div class="subtitle">y'a un truc je veux te demander là…</div>
+      <div class="divider"></div>
+      <p class="message">
+        Tu veux on sort ce soir ensemble ?<br/>
+        Ciné ou on se promène là 🌙<br/>
+        Dis moi oui wari ! 🙏
+      </p>
+      <p class="sub-message">Si tu dis non, tu vas regretter hein 😂💕</p>
+
+      <div class="buttons">
+        <button class="btn btn-yes" id="btn-yes" onclick="onYes()">
+          Oui ! 💕
+        </button>
+      </div>
+      <p class="hint">👆 Clique sur <strong>"Oui"</strong> — sinon essaie d'attraper le <strong>"Non"</strong> là-bas 😏</p>
+      <p class="hint" style="margin-top:10px; color:#ff9ec0; text-shadow:0 0 14px rgba(255,60,120,0.6);">📸 Fais la capture de ta réponse et envoie-la moi vite !</p>
+    </div>
+
+    <!-- Flèche scroll vers les photos -->
+    <div class="scroll-arrow" onclick="document.getElementById('section-photos').scrollIntoView()">
+      <span>nos moments chéri 💕</span>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5v14M5 13l7 7 7-7" stroke="#ff9ec0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Bouton Non flottant -->
+  <button class="btn btn-no" id="btn-no">Non dèh 🏃</button>
+  <div id="no-label">viens m'attraper si tu peux !</div>
+
+  <!-- ══ SECTION 2 : Photos ══ -->
+  <section id="section-photos">
+    <div class="photos-title">Nos moments à nous 🌹</div>
+    <p class="photos-sub">regarde un peu ce qu'on a vécu ensemble…</p>
+
+    <div class="carousel-wrapper">
+      <div class="carousel-track-outer">
+        <div class="carousel-track" id="carousel-track">
+
+          <!-- ═══ SLIDE 1 ═══
+               Remplace "photo1.jpg" par ton vrai fichier image.
+               Place tes photos dans le même dossier que index.html.
+               Tu peux aussi coller une URL directe (https://...) -->
+          <div class="carousel-slide">
+            <img src="photos/mouna1.jpeg" alt="Souvenir 1"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="slide-placeholder" style="display:none">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="#ff9ec0" stroke-width="1.5"/>
+                <circle cx="8.5" cy="8.5" r="1.5" fill="#ff9ec0"/>
+                <path d="M21 15l-5-5L5 21" stroke="#ff9ec0" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Ajoute ta photo ici 📷<br/>
+              <small style="font-size:0.75rem;opacity:0.6">photo1.jpg</small>
+            </div>
+            <div class="slide-caption">On était trop bien là 💕</div>
+          </div>
+
+          <!-- ═══ SLIDE 2 ═══ -->
+          <div class="carousel-slide">
+            <img src="photos/mouna2.jpeg" alt="Souvenir 2"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="slide-placeholder" style="display:none">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="#ff9ec0" stroke-width="1.5"/>
+                <circle cx="8.5" cy="8.5" r="1.5" fill="#ff9ec0"/>
+                <path d="M21 15l-5-5L5 21" stroke="#ff9ec0" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Ajoute ta photo ici 📷<br/>
+              <small style="font-size:0.75rem;opacity:0.6">photo2.jpg</small>
+            </div>
+            <div class="slide-caption">C'est toujours beau avec toi dèh 🌙</div>
+          </div>
+
+          <!-- ═══ SLIDE 3 ═══ -->
+          <div class="carousel-slide">
+            <img src="photos/mouna3.jpeg" alt="Souvenir 3"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="slide-placeholder" style="display:none">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="#ff9ec0" stroke-width="1.5"/>
+                <circle cx="8.5" cy="8.5" r="1.5" fill="#ff9ec0"/>
+                <path d="M21 15l-5-5L5 21" stroke="#ff9ec0" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Ajoute ta photo ici 📷<br/>
+              <small style="font-size:0.75rem;opacity:0.6">photo3.jpg</small>
+            </div>
+            <div class="slide-caption">Trop heureux avec toi wari 🥰</div>
+          </div>
+
+          <!-- ═══ SLIDE 4 ═══ -->
+          <div class="carousel-slide">
+            <img src="photos/mouna4.jpeg" alt="Souvenir 4"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <div class="slide-placeholder" style="display:none">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="#ff9ec0" stroke-width="1.5"/>
+                <circle cx="8.5" cy="8.5" r="1.5" fill="#ff9ec0"/>
+                <path d="M21 15l-5-5L5 21" stroke="#ff9ec0" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Ajoute ta photo ici 📷<br/>
+              <small style="font-size:0.75rem;opacity:0.6">photo4.jpg</small>
+            </div>
+            <div class="slide-caption">Avec toi c'est jamais pareil 💖</div>
+          </div>
+
+        </div><!-- /carousel-track -->
+      </div><!-- /carousel-track-outer -->
+
+      <button class="carousel-btn prev" id="carousel-prev">&#8592;</button>
+      <button class="carousel-btn next" id="carousel-next">&#8594;</button>
+    </div>
+
+    <div class="carousel-dots" id="carousel-dots"></div>
+    <div class="carousel-counter" id="carousel-counter"></div>
+  </section>
+
+  <!-- Écran succès -->
+  <div id="success-screen">
+    <div class="success-emoji">🥰</div>
+    <div class="success-title">Ahhh Mouna !!!</div>
+    <p class="success-msg">
+      Je savais tu allais dire oui dèh 💖<br/>
+      Mon cœur là il est trop content !<br/>
+      Ce soir on va vraiment kiffer wari 🌙
+    </p>
+    <p style="margin-top:28px; font-family:'Dancing Script',cursive; font-size:1.15rem; color:#ff9ec0; font-style:italic; text-shadow:0 0 16px rgba(255,60,120,0.7);">
+      📸 Fais vite la capture et envoie-la moi 😘
+    </p>
+  </div>
+
+<script>
+  /* ── Pétales ── */
+  const PETALS = ['🌸','🌺','🌹','❀','✿'];
+  const petalsCont = document.getElementById('petals');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (0.9 + Math.random() * 1.4) + 'rem';
+    p.style.animationDuration = (5 + Math.random() * 8) + 's';
+    p.style.animationDelay = -(Math.random() * 10) + 's';
+    petalsCont.appendChild(p);
+  }
+
+  /* ── Coeurs fond ── */
+  const heartsBg = document.getElementById('heartsBg');
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-bg';
+    h.textContent = '♥';
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.top  = Math.random() * 100 + 'vh';
+    h.style.fontSize = (0.8 + Math.random() * 2) + 'rem';
+    h.style.animationDuration = (3 + Math.random() * 5) + 's';
+    h.style.animationDelay = -(Math.random() * 5) + 's';
+    heartsBg.appendChild(h);
+  }
+
+  /* ── Bouton "Non" qui fuit la souris en temps réel ── */
+  const btnNo   = document.getElementById('btn-no');
+  const noLabel = document.getElementById('no-label');
+  const MARGIN = 24, FLEE_DIST = 180, SPEED = 18;
+  let noX, noY, mouseX = -500, mouseY = -500;
+
+  requestAnimationFrame(() => {
+    const bw = btnNo.offsetWidth || 120;
+    const bh = btnNo.offsetHeight || 44;
+    noX = window.innerWidth  - bw - MARGIN;
+    noY = window.innerHeight - bh - MARGIN;
+    btnNo.style.left = noX + 'px';
+    btnNo.style.top  = noY + 'px';
+    noLabel.style.left = (noX + bw / 2) + 'px';
+    noLabel.style.top  = (noY - 22) + 'px';
+    loop();
+  });
+
+  document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+  document.addEventListener('touchmove', e => {
+    mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY;
+  }, { passive: true });
+
+  function loop() {
+    const bw = btnNo.offsetWidth || 120;
+    const bh = btnNo.offsetHeight || 44;
+    const cx = noX + bw / 2, cy = noY + bh / 2;
+    const dx = mouseX - cx, dy = mouseY - cy;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < FLEE_DIST && dist > 0) {
+      const ratio = Math.min(1, (FLEE_DIST - dist) / FLEE_DIST * 2.5);
+      const angle = Math.atan2(dy, dx);
+      noX -= Math.cos(angle) * SPEED * ratio;
+      noY -= Math.sin(angle) * SPEED * ratio;
+      noX = Math.max(MARGIN, Math.min(window.innerWidth  - bw - MARGIN, noX));
+      noY = Math.max(MARGIN, Math.min(window.innerHeight - bh - MARGIN, noY));
+      btnNo.style.left  = noX + 'px';
+      btnNo.style.top   = noY + 'px';
+      noLabel.style.left = (noX + bw / 2) + 'px';
+      noLabel.style.top  = (noY - 22) + 'px';
+    }
+    requestAnimationFrame(loop);
+  }
+
+  /* ── Carousel ── */
+  const track   = document.getElementById('carousel-track');
+  const dotsEl  = document.getElementById('carousel-dots');
+  const counter = document.getElementById('carousel-counter');
+  const slides  = track.querySelectorAll('.carousel-slide');
+  const total   = slides.length;
+  let current   = 0;
+
+  // Créer les dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dotsEl.querySelectorAll('.dot').forEach((d, i) =>
+      d.classList.toggle('active', i === current)
+    );
+    counter.textContent = `${current + 1} / ${total}`;
+  }
+
+  goTo(0);
+
+  document.getElementById('carousel-prev').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('carousel-next').addEventListener('click', () => goTo(current + 1));
+
+  // Swipe tactile
+  let touchStartX = null;
+  track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    touchStartX = null;
+  });
+
+  // Auto-play toutes les 4s
+  setInterval(() => goTo(current + 1), 4000);
+
+  /* ── Bouton Oui ── */
+  function onYes() {
+    spawnConfetti();
+    setTimeout(() => {
+      document.getElementById('success-screen').classList.add('show');
+    }, 600);
+  }
+
+  function spawnConfetti() {
+    const EMOJIS = ['💖','💕','🌹','💗','✨','🥰','💘'];
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-heart';
+        c.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top  = (Math.random() * 40) + 'vh';
+        c.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+        c.style.animationDuration = (1.2 + Math.random() * 1.2) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 2500);
+      }, i * 40);
+    }
+  }
+</script>
+</body>
+</html>
