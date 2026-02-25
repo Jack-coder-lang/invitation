@@ -322,6 +322,56 @@
       color: rgba(255,210,228,0.85); margin-top: 14px; max-width: 360px;
     }
 
+    /* ── Bouton musique ── */
+    #music-btn {
+      position: fixed; bottom: 20px; left: 20px; z-index: 200;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,60,120,0.25);
+      border: 1px solid rgba(255,100,150,0.4);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 0 16px rgba(255,60,120,0.3);
+      transition: transform 0.2s, background 0.2s;
+      animation: musicPulse 2s ease-in-out infinite;
+    }
+    #music-btn:hover { transform: scale(1.15); background: rgba(255,60,120,0.45); }
+    #music-btn.muted { opacity: 0.4; animation: none; }
+    @keyframes musicPulse {
+      0%, 100% { box-shadow: 0 0 16px rgba(255,60,120,0.3); }
+      50%       { box-shadow: 0 0 28px rgba(255,60,120,0.7); }
+    }
+
+    /* ── Message secret ── */
+    #secret-msg {
+      margin-top: 32px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,150,180,0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 24px 28px;
+      max-width: 340px;
+      animation: secretReveal 1s cubic-bezier(0.34,1.56,0.64,1) both 0.8s;
+    }
+    @keyframes secretReveal {
+      from { opacity: 0; transform: scale(0.85) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .secret-icon {
+      font-size: 2rem; margin-bottom: 12px;
+      animation: heartBeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.2); }
+    }
+    .secret-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.15rem; color: #ffd6e7;
+      line-height: 1.7; font-style: italic;
+      text-shadow: 0 0 12px rgba(255,100,150,0.4);
+    }
+
     /* Confettis */
     .confetti-heart {
       position: fixed; pointer-events: none; z-index: 300;
@@ -462,6 +512,16 @@
     <div class="carousel-counter" id="carousel-counter"></div>
   </section>
 
+  <!-- Musique YouTube cachée -->
+  <iframe id="yt-player"
+    src="https://www.youtube.com/embed/0S8vbwqyhjQ?autoplay=1&loop=1&playlist=0S8vbwqyhjQ&controls=0&mute=0"
+    allow="autoplay"
+    style="position:fixed;width:0;height:0;border:none;opacity:0;pointer-events:none;">
+  </iframe>
+
+  <!-- Bouton musique -->
+  <div id="music-btn" onclick="toggleMusic()" title="Musique">🎵</div>
+
   <!-- Écran succès -->
   <div id="success-screen">
     <div class="success-emoji">🥰</div>
@@ -471,12 +531,40 @@
       Je suis trop heureux !<br/>
       Samedi on va passer un super moment 🌙
     </p>
+
+    <!-- Message secret -->
+    <div id="secret-msg">
+      <div class="secret-icon">💌</div>
+      <p class="secret-text">
+        Tu sais pas à quel point tu comptes pour moi…<br/>
+        Chaque fois que je te vois, mon cœur s'emballe.<br/>
+        Je voulais juste que tu le saches. 🌹
+      </p>
+    </div>
+
     <p style="margin-top:28px; font-family:'Dancing Script',cursive; font-size:1.15rem; color:#ff9ec0; font-style:italic; text-shadow:0 0 16px rgba(255,60,120,0.7);">
       📸 Fais vite la capture et envoie-la moi 😘
     </p>
   </div>
 
 <script>
+  /* ── Musique toggle ── */
+  let musicMuted = false;
+  function toggleMusic() {
+    const btn = document.getElementById('music-btn');
+    const iframe = document.getElementById('yt-player');
+    musicMuted = !musicMuted;
+    if (musicMuted) {
+      iframe.src = iframe.src.replace('mute=0','mute=1');
+      btn.textContent = '🔇';
+      btn.classList.add('muted');
+    } else {
+      iframe.src = iframe.src.replace('mute=1','mute=0');
+      btn.textContent = '🎵';
+      btn.classList.remove('muted');
+    }
+  }
+
   /* ── Pétales ── */
   const PETALS = ['🌸','🌺','🌹','❀','✿'];
   const petalsCont = document.getElementById('petals');
