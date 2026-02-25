@@ -512,9 +512,9 @@
     <div class="carousel-counter" id="carousel-counter"></div>
   </section>
 
-  <!-- Musique YouTube cachée -->
+  <!-- Musique YouTube cachée (démarre au clic sur Oui) -->
   <iframe id="yt-player"
-    src="https://www.youtube.com/embed/0S8vbwqyhjQ?autoplay=1&loop=1&playlist=0S8vbwqyhjQ&controls=0&mute=0"
+    src=""
     allow="autoplay"
     style="position:fixed;width:0;height:0;border:none;opacity:0;pointer-events:none;">
   </iframe>
@@ -536,9 +536,9 @@
     <div id="secret-msg">
       <div class="secret-icon">💌</div>
       <p class="secret-text">
-        Tu sais pas à quel point tu comptes pour moi…<br/>
-        Chaque fois que je te vois, mon cœur s'emballe.<br/>
-        Je voulais juste que tu le saches. 🌹
+        Tu es la personne qui me fait sourire<br/>
+        sans même le savoir.<br/>
+        Merci d'exister. 🌹
       </p>
     </div>
 
@@ -682,6 +682,9 @@
 
   /* ── Bouton Oui ── */
   function onYes() {
+    // Démarrer la musique au clic (contourne le blocage autoplay)
+    const iframe = document.getElementById('yt-player');
+    iframe.src = 'https://www.youtube.com/embed/0S8vbwqyhjQ?autoplay=1&loop=1&playlist=0S8vbwqyhjQ&controls=0&mute=0';
     spawnConfetti();
     setTimeout(() => {
       document.getElementById('success-screen').classList.add('show');
